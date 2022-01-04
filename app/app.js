@@ -2,7 +2,6 @@
 
 
 // Startup Functions
-var previousPress = null; // this will be an object {string, Date}
 var matrix = makeEmptyMatrix();
 
 function makeEmptyMatrix() {
@@ -22,20 +21,23 @@ function startClick() {
   // sometimes browsers will cache the text in the textarea, so I clear it just to make sure it's empty
   document.getElementById("typeBox").value = '';
 
-	document.getElementById("Start").style.display="none";
-	document.getElementById("Type").style.display="block";
+  document.getElementById("Start").style.display="none";
+  document.getElementById("Type").style.display="block";
 
   document.getElementById("typeBox").focus();
 }
 
 function showResults() {
-  displayResults(sortResults())
+  sortResults();
+  displayResults();
 
   document.getElementById("Type").style.display="none";
   document.getElementById("Results").style.display="block";
 }
 
 // Type Page Functions
+var previousPress = null; // this will be an object {string, Date}
+
 function handleKey(event) {
 	timeNow = new Date();
 	if(previousPress !== null && validKeys.includes(event.key) && validKeys.includes(previousPress.key)) {
@@ -53,39 +55,64 @@ function updateMatrix(fromKey, toKey, betweenTime) {
 }
 
 // Result Page Functions
-function sortResults() {
-	var sorted = [];
+var displayOptions = { "timeSort" : "fastest" }
+var sorted = [];
+
+function sortResults() { // sorted to be fastest -> slowest
 	for (var cOne of validKeys) {
 	  for (var cTwo of validKeys) {
 	  	const pairData = { "from": cOne, "to": cTwo, "betweenTime": matrix[cOne][cTwo] }
-	  	sorted = insertPair(pairData, sorted)
+	  	insertPair(pairData)
 		}
 	}
-  return sorted;
 }
 
-function insertPair(pairData, sorted) {
+function insertPair(pairData) {
   for(var i = 0; i < sorted.length; i++) {
     if (pairData.betweenTime < sorted[i].betweenTime) {
       sorted.splice(i, 0, pairData);
-      return sorted;
+      return;
     }
   }
   sorted.push(pairData);
-  return sorted;
 }
 
-function displayResults(sorted){
-  document.getElementById("resultText").innerHTML = makeResultsTableHTML(sorted);
+function displayResults(){
+  document.getElementById("resultText").innerHTML = makeResultsTableHTML();
 }
 
-function makeResultsTableHTML(sorted) {
-  tableHTML = "<table> <tr> <th> From </th> <th> To </th> <th> Avg Time </th> </tr>";
-  for(var i = 0; i < sorted.length; i++) {
-    if (sorted[i].betweenTime !== 0) {
-      tableHTML += `<tr> <td> ${sorted[i].from} </td> <td> ${sorted[i].to} </td> <td> ${Math.trunc(sorted[i].betweenTime)} ms </td> </tr>`;
-    }
+function makeResultsTableHTML() {
+  tableHTML = `<table> 
+    <tr> 
+      <th> From </th>
+      <th> To </th> 
+      <th> <button id="timeSortButton" onClick="resortDisplay()"> Avg Time<i class="material-icons" style="font-size:15px">swap_vert</i> </button> </th> 
+    </tr>`;
+  if (displayOptions.timeSort === "fastest") {
+    tableHTML += makeTableRowsHTML("", 0, 1);
+  } else if (displayOptions.timeSort === "slowest") {
+    tableHTML += makeTableRowsHTML("", sorted.length-1, -1);
   }
   tableHTML += "</table>";
   return tableHTML;
+}
+
+function makeTableRowsHTML(tableRowsHTML, i, increment) {
+  if (i >= sorted.length || i < 0) {
+    return tableRowsHTML;
+  }
+  if (sorted[i].betweenTime !== 0) {
+    tableRowsHTML += `<tr> <td> ${sorted[i].from} </td> <td> ${sorted[i].to} </td> <td> ${Math.trunc(sorted[i].betweenTime)} ms </td> </tr>`;
+  }
+  return makeTableRowsHTML(tableRowsHTML, i+increment, increment);
+}
+
+function resortDisplay() {
+  if (displayOptions.timeSort === "fastest") {
+    displayOptions.timeSort = "slowest";
+  } else {
+    displayOptions.timeSort = "fastest";
+  }
+  document.getElementById("resultText").innerHTML = "";
+  displayResults();
 }
