@@ -1,3 +1,17 @@
 #Start {
-	text-align: center;
+  text-align: center;
+}
+
+#resultText {
+  text-align: center;
+}
+
+tr:nth-child(even) {
+  background-color: #e6e6ff;
+}
+
+#timeSortButton {
+  background-color: white;
+  color: black;
+  border: 1px solid #ffffff;
 }
