@@ -14,4 +14,5 @@ tr:nth-child(even) {
   background-color: white;
   color: black;
   border: 1px solid #ffffff;
+  font-size: 15px
 }
