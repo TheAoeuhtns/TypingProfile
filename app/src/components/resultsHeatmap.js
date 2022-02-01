@@ -11,7 +11,7 @@ function ResultsHeatmap({ data }) {
     <Plot
       data = {[
         {
-          z: [[1, 20, 30], [20, 1, 60], [30, 60, 1]],
+          z: matrix.resultsMatrix,
           x: validKeys,
           y: validKeys,
           type: 'heatmap'
