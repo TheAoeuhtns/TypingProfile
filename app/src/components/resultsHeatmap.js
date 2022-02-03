@@ -6,9 +6,10 @@ import { TypingMatrix } from '../resources/typingMatrix';
 
 function ResultsHeatmap({ data }) {
 	const matrix = new TypingMatrix(data.matrix);
+  const dataOffset = (matrix.getSlowestTime() - matrix.getFastestTime())/15; //This is so the heatmap looks better
 
   var reducedMatrix = [];
-  var xAxisLabel = [...validKeys];
+  var xAxisLabel = [];
   var yAxisLabel = [];
 
   // returns a 2d array with rows/columns that are entirely 0s removed
@@ -31,12 +32,17 @@ function ResultsHeatmap({ data }) {
         }
       }
       if(allZero){
+        //If column is zero, the col index needs to be removed on every row
         for(var row=0; row<reducedMatrix.length; row++) {
           reducedMatrix[row].splice(col, 1);
         }
-        xAxisLabel.splice(col, 1);
+      } else {
+        //the col's not empty so it will stay and the x axis needs a label
+        xAxisLabel.push(validKeys[col]);
       }
     }
+    //xAxisLabel labels were pushed on backwards, so need to flip
+    xAxisLabel.reverse();
   }
 
   makeReducedResultsMatrix();
@@ -45,17 +51,17 @@ function ResultsHeatmap({ data }) {
     <Plot
       data = {[
         {
-          z: reducedMatrix,
+          z: reducedMatrix.map(row => row.map(val => val===0 ? 0 : val+dataOffset)),
           x: xAxisLabel,
           y: yAxisLabel,
           type: "heatmap",
           colorscale: "Blackbody",
           colorbar: { 
             tickmode: "array",
-            tickvals: [0, matrix.getFastestTime(), matrix.sortedList[matrix.sortedList.length-1].betweenTime],
+            tickvals: [0, matrix.getFastestTime()+dataOffset, matrix.getSlowestTime()+dataOffset],
             ticktext: ["Not typed", "Fast", "Slow"] 
           },
-          hovertemplate:"%{y} to %{x}, %{z} ms <extra></extra>"
+          hovertemplate:"%{y} to %{x} <extra></extra>"
         }
       ]}
       layout={{

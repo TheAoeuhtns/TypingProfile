@@ -10,8 +10,8 @@ function ResultsPage() {
 	return (
 		<div id="Results">
       Here are the results! Note: This excludes any combinations that were never typed
-      <ResultsTable data={location.state.matrix} />
       <ResultsHeatmap data={location.state.matrix} />
+      <ResultsTable data={location.state.matrix} />
     </div>
 	);
 }

@@ -74,17 +74,25 @@ class TypingMatrix {
   //---- Get functions ----
 
   getFastestTime() {
-    // I doubt this function will ever be called when sortedList is not filled in
-    // but just somehow it ever does, it checks just so it doesn't crash
+    //probably won't be in this state when calling this, but checknig just in case
     if(this.sortedList.length === 0) {
       return 0;
     }
-
+    
     var i = 0;
     while(this.sortedList[i].betweenTime === 0) {
       i += 1;
     }
     return this.sortedList[i].betweenTime;
+  }
+
+  getSlowestTime() {
+    //probably won't be in this state when calling this, but checknig just in case
+    if(this.sortedList.length === 0) {
+      return 0;
+    }
+
+    return this.sortedList[this.sortedList.length-1].betweenTime;
   }
 }
 
