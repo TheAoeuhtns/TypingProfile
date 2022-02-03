@@ -14,9 +14,22 @@ function ResultsHeatmap({ data }) {
           z: matrix.resultsMatrix,
           x: validKeys,
           y: validKeys,
-          type: 'heatmap'
+          type: "heatmap",
+          colorscale: "Blackbody",
+          colorbar: { 
+            tickmode: "array",
+            tickvals: [0, matrix.getFastestTime(), matrix.sortedList[matrix.sortedList.length-1].betweenTime],
+            ticktext: ["Not typed", "Fast", "Slow"] 
+          },
+          hovertemplate:"%{y} to %{x}, %{z} ms <extra></extra>"
         }
       ]}
+      layout={{
+        width: 700, 
+        height: 700,
+        xaxis: { title: "To Key" },
+        yaxis: { title: "From Key" }
+      }}
     />
 	);
 }
