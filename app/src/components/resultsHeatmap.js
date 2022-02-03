@@ -7,13 +7,47 @@ import { TypingMatrix } from '../resources/typingMatrix';
 function ResultsHeatmap({ data }) {
 	const matrix = new TypingMatrix(data.matrix);
 
+  var reducedMatrix = [];
+  var xAxisLabel = [...validKeys];
+  var yAxisLabel = [];
+
+  // returns a 2d array with rows/columns that are entirely 0s removed
+  const makeReducedResultsMatrix = () => {
+    //Rows
+    for(var i=0; i<validKeys.length; i++) {
+      if(!matrix.resultsMatrix[i].every(t => t === 0)) {
+        yAxisLabel.push(validKeys[i]);
+        reducedMatrix.push([...matrix.resultsMatrix[i]]);
+      }
+    }
+
+    //Columns
+    for(var col=reducedMatrix[0].length-1; col>=0; col--) { //going backwards so removing doesn't change index
+      var allZero = true;
+      for(var row=0; row<reducedMatrix.length; row++) {
+        if(reducedMatrix[row][col] !== 0) {
+          allZero = false;
+          break;
+        }
+      }
+      if(allZero){
+        for(var row=0; row<reducedMatrix.length; row++) {
+          reducedMatrix[row].splice(col, 1);
+        }
+        xAxisLabel.splice(col, 1);
+      }
+    }
+  }
+
+  makeReducedResultsMatrix();
+
 	return (
     <Plot
       data = {[
         {
-          z: matrix.resultsMatrix,
-          x: validKeys,
-          y: validKeys,
+          z: reducedMatrix,
+          x: xAxisLabel,
+          y: yAxisLabel,
           type: "heatmap",
           colorscale: "Blackbody",
           colorbar: { 
