@@ -16,7 +16,7 @@ function TypingCaptureArea() {
   const handleKey = event => {
     const timeNow = new Date();
     if(previousPress !== null && validKeys.includes(event.key) && validKeys.includes(previousPress.key)) {
-      matrix.update(previousPress.key, event.key.toLowerCase(), timeNow - previousPress.pressTime);
+      matrix.update(previousPress.key, event.key, timeNow - previousPress.pressTime);
     }
     previousPress = { "key": event.key, "pressTime": timeNow };
   }

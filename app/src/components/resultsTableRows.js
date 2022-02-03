@@ -4,7 +4,7 @@ function ResultsTableRows ({ list, options }) {
   const makeTableRows = () => {
     const displayRows = list.map((item) => {
       if(item.betweenTime !== 0) {
-        return ( <tr> <td> {item.from} </td> <td> {item.to} </td> <td> {Math.trunc(item.betweenTime)} ms </td> </tr> );
+        return ( <tr> <td> {item.from} </td> <td> {item.to} </td> <td> {item.betweenTime} ms </td> </tr> );
       }
     });
     

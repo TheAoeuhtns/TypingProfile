@@ -5,12 +5,16 @@ class TypingMatrix {
     if(m === undefined) {
       this.matrix = this.makeEmptyMatrix();
       this.resultsMatrix = [];
+      this.sortedList = [];
     } else {
       // probably should make a deep copy
       this.matrix = m;
       this.resultsMatrix = this.populateResultsMatrix();
+      this.sortedList = this.sort();
     }
   }
+
+  //---- matrix Related functions ----
 
 	makeEmptyMatrix() {
 	  var emptyMatrix = {};
@@ -24,13 +28,11 @@ class TypingMatrix {
 	  return emptyMatrix;
 	}
 
-  makeEmptyResultsMatrix() {
-    var emptyMatrix = [];
-    for(var key of validKeys) {
-      emptyMatrix.push(new Array(validKeys.length).fill(0));
-    }
-    return emptyMatrix;
+  update(fromKey, toKey, betweenTime) {
+    this.matrix[fromKey][toKey].push(betweenTime);
   }
+
+  //---- resultsMatrix Related Functions ----
 
   populateResultsMatrix() {
     var emptyResultsMatrix = [];
@@ -38,16 +40,14 @@ class TypingMatrix {
       emptyResultsMatrix.push(new Array(validKeys.length).fill(0));
       for(var toKey of validKeys) {
         if(this.matrix[fromKey][toKey].length > 0) {
-          emptyResultsMatrix[validKeys.indexOf(fromKey)][validKeys.indexOf(toKey)] = this.matrix[fromKey][toKey].reduce((a,b) => a+b, 0)/this.matrix[fromKey][toKey].length;
+          emptyResultsMatrix[validKeys.indexOf(fromKey)][validKeys.indexOf(toKey)] = Math.trunc(this.matrix[fromKey][toKey].reduce((a,b) => a+b, 0)/this.matrix[fromKey][toKey].length);
         }
       }
     }
     return emptyResultsMatrix;
   }
 
-	update(fromKey, toKey, betweenTime) {
-    this.matrix[fromKey][toKey].push(betweenTime);
-	}
+  //---- sortedList Related Functions ----
 
   sort() { // sorted to be fastest -> slowest
     var sorted = [];
@@ -69,6 +69,30 @@ class TypingMatrix {
     }
     sorted.push(pairData);
     return sorted;
+  }
+
+  //---- Get functions ----
+
+  getFastestTime() {
+    //probably won't be in this state when calling this, but checknig just in case
+    if(this.sortedList.length === 0) {
+      return 0;
+    }
+    
+    var i = 0;
+    while(this.sortedList[i].betweenTime === 0) {
+      i += 1;
+    }
+    return this.sortedList[i].betweenTime;
+  }
+
+  getSlowestTime() {
+    //probably won't be in this state when calling this, but checknig just in case
+    if(this.sortedList.length === 0) {
+      return 0;
+    }
+
+    return this.sortedList[this.sortedList.length-1].betweenTime;
   }
 }
 
