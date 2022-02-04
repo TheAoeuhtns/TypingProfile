@@ -7,53 +7,15 @@ import { TypingMatrix } from '../../resources/typingMatrix';
 function ResultsHeatmap({ data }) {
 	const matrix = new TypingMatrix(data.matrix);
   const dataOffset = (matrix.getSlowestTime() - matrix.getFastestTime())/15; //This is so the heatmap looks better
-
-  var reducedMatrix = [];
-  var xAxisLabel = [];
-  var yAxisLabel = [];
-
-  // returns a 2d array with rows/columns that are entirely 0s removed
-  const makeReducedResultsMatrix = () => {
-    //Rows
-    for(var i=0; i<validKeys.length; i++) {
-      if(!matrix.resultsMatrix[i].every(t => t === 0)) {
-        yAxisLabel.push(validKeys[i]);
-        reducedMatrix.push([...matrix.resultsMatrix[i]]);
-      }
-    }
-
-    //Columns
-    for(var col=reducedMatrix[0].length-1; col>=0; col--) { //going backwards so removing doesn't change index
-      var allZero = true;
-      for(var row=0; row<reducedMatrix.length; row++) {
-        if(reducedMatrix[row][col] !== 0) {
-          allZero = false;
-          break;
-        }
-      }
-      if(allZero){
-        //If column is zero, the col index needs to be removed on every row
-        for(var row=0; row<reducedMatrix.length; row++) {
-          reducedMatrix[row].splice(col, 1);
-        }
-      } else {
-        //the col's not empty so it will stay and the x axis needs a label
-        xAxisLabel.push(validKeys[col]);
-      }
-    }
-    //xAxisLabel labels were pushed on backwards, so need to flip
-    xAxisLabel.reverse();
-  }
-
-  makeReducedResultsMatrix();
+  const { reducedMatrix, rowKeys, colKeys } = matrix.makeReducedResultsMatrix();
 
 	return (
     <Plot
       data = {[
         {
           z: reducedMatrix.map(row => row.map(val => val===0 ? 0 : val+dataOffset)),
-          x: xAxisLabel,
-          y: yAxisLabel,
+          x: colKeys,
+          y: rowKeys,
           type: "heatmap",
           colorscale: "Blackbody",
           colorbar: { 

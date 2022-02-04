@@ -47,9 +47,59 @@ class TypingMatrix {
     return emptyResultsMatrix;
   }
 
+  // returns an object with:
+  // {
+  //  reducedMatrix: [Number[]], a 2d array with rows/columns in resultsMatrix that are entirely 0s removed
+  //  rowKeys: String[], a list of keys matching the rows of the reducedMatrix
+  //  colKeys: String[], a list of keys matching the columns of the reducedMatrix
+  // }
+  makeReducedResultsMatrix() {
+    var reducedMatrix = [];
+    var rowKeys = [];
+    var colKeys = [];
+    //Rows
+    for(var i=0; i<validKeys.length; i++) {
+      if(!this.resultsMatrix[i].every(t => t === 0)) {
+        rowKeys.push(validKeys[i]);
+        reducedMatrix.push([...this.resultsMatrix[i]]);
+      }
+    }
+
+    //Columns
+    for(var col=reducedMatrix[0].length-1; col>=0; col--) { //going backwards so removing doesn't change index
+      var allZero = true;
+      for(var row=0; row<reducedMatrix.length; row++) {
+        if(reducedMatrix[row][col] !== 0) {
+          allZero = false;
+          break;
+        }
+      }
+      if(allZero){
+        //If column is zero, the col index needs to be removed on every row
+        for(var row=0; row<reducedMatrix.length; row++) {
+          reducedMatrix[row].splice(col, 1);
+        }
+      } else {
+        //the col's not empty so it will stay and the key needs to be added to colKeys
+        colKeys.push(validKeys[col]);
+      }
+    }
+    //colKeys key were pushed on backwards, so need to flip
+    colKeys.reverse();
+
+    return {reducedMatrix, rowKeys, colKeys};
+  }
+
   //---- sortedList Related Functions ----
 
-  sort() { // sorted to be fastest -> slowest
+  // sorted to be fastest -> slowest
+  // each object in list is as so:
+  // {
+  //    from: String - first key pressed
+  //    to: String - second key pressed
+  //    betweenTime: Number - time between those two key presses
+  // }
+  sort() {
     var sorted = [];
     for(var cOne in validKeys) {
       for(var cTwo in validKeys) {
