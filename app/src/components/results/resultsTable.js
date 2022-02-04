@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { TypingMatrix } from '../resources/typingMatrix';
+import { TypingMatrix } from '../../resources/typingMatrix';
 import { ResultsTableRows } from './resultsTableRows';
 
 function ResultsTable ({ data }) {

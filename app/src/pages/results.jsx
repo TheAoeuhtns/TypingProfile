@@ -1,8 +1,8 @@
 import React from 'react';
 import { useLocation } from 'react-router-dom';
 
-import { ResultsTable } from '../components/resultsTable';
-import { ResultsHeatmap } from '../components/resultsHeatmap';
+import { ResultsTable } from '../components/results/resultsTable';
+import { ResultsHeatmap } from '../components/results/resultsHeatmap';
 
 function ResultsPage() {
   const location = useLocation();
