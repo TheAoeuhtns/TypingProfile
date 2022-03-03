@@ -17,7 +17,8 @@ function ResultsHeatmap({ data }) {
           x: colKeys,
           y: rowKeys,
           type: "heatmap",
-          colorscale: "Blackbody",
+          colorscale: "Electric",
+          reversescale: true,
           colorbar: { 
             tickmode: "array",
             tickvals: [0, matrix.getFastestTime()+dataOffset, matrix.getSlowestTime()+dataOffset],
