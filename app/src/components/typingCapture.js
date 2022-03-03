@@ -37,7 +37,7 @@ function TypingCaptureArea() {
         ref={focusArea}
       ></textarea>
       <br />
-      <button onClick={toResults}>Show Results</button>
+      <button onClick={toResults} class="rounded-button">Show Results</button>
     </div>
   );
 }

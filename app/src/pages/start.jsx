@@ -4,10 +4,10 @@ import { NavLink } from 'react-router-dom';
 function StartPage() {
 	return (
 		<div id="Start">
-	    <p>
+	    <p class="large-text">
 	      This app has you type and then shows you the time between keystrokes, it's kind of interesting, maybe.
 	    </p>
-	    <NavLink to="/typing"> Start! </NavLink>
+	    <NavLink to="/typing" id="StartButton"> Start! </NavLink>
 	  </div>
 	);
 }

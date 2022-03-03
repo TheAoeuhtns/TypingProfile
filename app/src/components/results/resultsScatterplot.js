@@ -100,7 +100,7 @@ function ResultsScatterplot({ data }) {
           yaxis: { title: axisText }
         }}
       />
-      <button onClick={switchYAxis}>Switch Y Axis </button>
+      <button onClick={switchYAxis} class="rounded-button-small">Switch Y Axis </button>
     </div>
 	);
 }

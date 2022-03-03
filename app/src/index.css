@@ -1,18 +1,90 @@
+/* Stylings by ID */
+
+  /* start page */
+
 #Start {
   text-align: center;
+  font-family: Veranda, Arial, sans-serif;
 }
 
-#resultText {
+#StartButton { 
+  /* note:  this is the same as rounded button
+  but for whatever reason NavLink won't style 
+  with a class, just the ID*/
+  background-color: #264d73;
+  color: white;
+  font-size: 1.5em;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+}
+
+  /* Typing page */
+
+#Type {
   text-align: center;
 }
 
-tr:nth-child(even) {
-  background-color: #e6e6ff;
+#typeBox {
+  width:  50%;
+  height: 20vh;
+  background-color: #ecf2f9;
+  border: none transparent;
+  border-radius: 12px;
+  border-color: transparent;
+  outline: none;
+  scrollbar-width: thin;
+  scrollbar-color: #249de4 #f5f5f5;
+}
+
+  /* Results page */
+
+#Results {
+  font-family: Veranda, Arial, sans-serif;
 }
 
 #timeSortButton {
   background-color: white;
   color: black;
   border: 1px solid #ffffff;
-  font-size: 15px
+  cursor: pointer;
+}
+
+/* Stylings by Class */
+
+.large-text {
+  font-size: 1.75vw;
+}
+
+.rounded-button {
+  background-color: #264d73;
+  color: white;
+  font-size: 1.5em;
+  border: none;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+}
+
+.rounded-button-small {
+  background-color: #264d73;
+  color: white;
+  font-size: 0.75em;
+  border: none;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 12px;
+}
+
+/* Stylings by Element */
+
+tr:nth-child(even) {
+  background-color: #ecf2f9;
 }
