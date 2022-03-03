@@ -8,9 +8,9 @@ function ResultsScatterplot({ data }) {
   const matrix = new TypingMatrix(data.matrix);
   const { reducedMatrix, rowKeys, colKeys } = matrix.makeReducedResultsMatrix();
 
-  var listTimes = [];
-  var listFroms = [];
-  var listTos = [];
+  var listTimes = []; // int[], times
+  var listFroms = []; // stirng[], from keys
+  var listTos = []; // string[], to keys
 
   for(var i in rowKeys) {
     for(var j in colKeys) {
@@ -29,15 +29,52 @@ function ResultsScatterplot({ data }) {
   const [axisText, setAxisText] = useState("From Keys");
   const [hovertemplateText, setHovertemplateText] = useState("%{y} to %{customdata} %{x} ms <extra></extra>");
 
+  // The next two functions keep things in alphabetical order
+  const setYtoTos = () => {
+    var times = [];
+    var froms = [];
+    var tos = [];
+
+    for(var j in colKeys) {
+      for(var i in rowKeys) {
+        if(reducedMatrix[i][j] !== 0) {
+          times.push(reducedMatrix[i][j]);
+          froms.push(rowKeys[i]);
+          tos.push(colKeys[j]);
+        }
+      }
+    }
+    setX(times);
+    setY(tos);
+    setZ(froms);
+  }
+
+  const setYtoFroms = () => {
+    var times = [];
+    var froms = [];
+    var tos = [];
+
+    for(var i in rowKeys) {
+      for(var j in colKeys) {
+        if(reducedMatrix[i][j] !== 0) {
+          times.push(reducedMatrix[i][j]);
+          froms.push(rowKeys[i]);
+          tos.push(colKeys[j]);
+        }
+      }
+    }
+    setX(times);
+    setY(froms);
+    setZ(tos);
+  }
+
   const switchYAxis = () => {
     if(axisText === "From Keys") {
-      setY(listTos);
-      setZ(listFroms);
+      setYtoTos();
       setAxisText("To Keys");
       setHovertemplateText("%{y} from %{customdata} %{x} ms <extra></extra>");
     } else {
-      setY(listFroms);
-      setZ(listTos);
+      setYtoFroms();
       setAxisText("From Keys");
       setHovertemplateText("%{y} to %{customdata} %{x} ms <extra></extra>");
     }
@@ -63,7 +100,7 @@ function ResultsScatterplot({ data }) {
           yaxis: { title: axisText }
         }}
       />
-      <button onClick={switchYAxis}>Switch Y Axis </button>
+      <button onClick={switchYAxis} class="rounded-button-small">Switch Y Axis </button>
     </div>
 	);
 }

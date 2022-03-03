@@ -10,7 +10,7 @@ function ResultsPage() {
 
 	return (
 		<div id="Results">
-      <p>Here are the results! Note: This excludes any combinations that were never typed</p>
+      <p class="large-text">Results!</p>
       <ResultsScatterplot data={location.state.matrix} />
       <br/>
       <ResultsHeatmap data={location.state.matrix} />
