@@ -50,8 +50,8 @@ class TypingMatrix {
   // returns an object with:
   // {
   //  reducedMatrix: [Number[]], a 2d array with rows/columns in resultsMatrix that are entirely 0s removed
-  //  rowKeys: String[], a list of keys matching the rows of the reducedMatrix
-  //  colKeys: String[], a list of keys matching the columns of the reducedMatrix
+  //  rowKeys: String[], a list of keys matching the rows of the reducedMatrix (from keys)
+  //  colKeys: String[], a list of keys matching the columns of the reducedMatrix (to keys)
   // }
   makeReducedResultsMatrix() {
     var reducedMatrix = [];
@@ -143,6 +143,19 @@ class TypingMatrix {
     }
 
     return this.sortedList[this.sortedList.length-1].betweenTime;
+  }
+
+  // returns: string[], list of from keys that were used
+  getRelevantFromKeys() {
+    var fromKeys = [];
+
+    for(var i=0; i<validKeys.length; i++) {
+      if(!this.resultsMatrix[i].every(t => t === 0)) {
+        fromKeys.push(validKeys[i]);
+      }
+    }
+
+    return fromKeys;
   }
 }
 

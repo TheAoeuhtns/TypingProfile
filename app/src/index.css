@@ -46,6 +46,14 @@
   font-family: Veranda, Arial, sans-serif;
 }
 
+#resultsSelectDiv {
+  float: left;
+}
+
+#resultsTable {
+  float: left;
+}
+
 #timeSortButton {
   background-color: white;
   color: black;
