@@ -35,7 +35,7 @@ function ResultsTable ({ data }) {
   }
 
   return (
-    <div>
+    <div id="tableDiv">
       <table id="resultsTable"> 
         <tr> 
           <th> From </th>

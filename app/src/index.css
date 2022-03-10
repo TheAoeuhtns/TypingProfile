@@ -50,6 +50,10 @@
   float: left;
 }
 
+#tableDiv {
+  height: 1000px;
+}
+
 #resultsTable {
   float: left;
 }
