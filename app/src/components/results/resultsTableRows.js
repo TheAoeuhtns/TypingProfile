@@ -3,7 +3,7 @@ import React from 'react';
 function ResultsTableRows ({ list, options }) {
   const makeTableRows = () => {
     const displayRows = list.map((item) => {
-      if(item.betweenTime !== 0) {
+      if(item.betweenTime !== 0 && (options.filterKey === undefined || options.filterKey === item.from)) {
         return ( <tr> <td> {item.from} </td> <td> {item.to} </td> <td> {item.betweenTime} ms </td> </tr> );
       }
     });
