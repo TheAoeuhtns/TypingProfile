@@ -24,7 +24,7 @@ function ResultsHeatmap({ data }) {
             tickvals: [0, matrix.getFastestTime()+dataOffset, matrix.getSlowestTime()+dataOffset],
             ticktext: ["Not typed", "Fast", "Slow"] 
           },
-          hovertemplate:"%{y} to %{x} <extra></extra>"
+          hovertemplate:"%{y} to %{x}, %{z}ms <extra></extra>"
         }
       ]}
       layout={{
