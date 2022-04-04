@@ -76,8 +76,8 @@ class TypingMatrix {
       }
       if(allZero){
         //If column is zero, the col index needs to be removed on every row
-        for(var row=0; row<reducedMatrix.length; row++) {
-          reducedMatrix[row].splice(col, 1);
+        for(var r=0; r<reducedMatrix.length; r++) {
+          reducedMatrix[r].splice(col, 1);
         }
       } else {
         //the col's not empty so it will stay and the key needs to be added to colKeys

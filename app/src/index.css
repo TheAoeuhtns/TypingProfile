@@ -40,6 +40,12 @@
   scrollbar-color: #249de4 #f5f5f5;
 }
 
+#exampleTextBox {
+  width:  50%;
+  margin:  5px auto;
+  font-family: Veranda, Arial, sans-serif;
+}
+
   /* Results page */
 
 #Results {
@@ -96,6 +102,10 @@
 }
 
 /* Stylings by Element */
+
+mark {
+  background-color: #93bcea;
+}
 
 tr:nth-child(even) {
   background-color: #ecf2f9;
