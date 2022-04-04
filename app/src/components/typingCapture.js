@@ -1,26 +1,39 @@
 import React, { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { validKeys } from '../resources/constants';
+import { validKeys, textExerpt } from '../resources/constants';
 import { TypingMatrix } from '../resources/typingMatrix';
+import { TypingExerpt } from './typingExerpt';
 
 function TypingCaptureArea() {
-  var previousPress = null; // this will be an object {string, Date}
-  var matrix = new TypingMatrix();
+
+  const [previousPress, setPreviousPress] = React.useState( { "key" : undefined, "pressTime" : undefined } );
+  const [matrix, setMatrix] = React.useState( new TypingMatrix() );
+  const [markedWord, setMarkedWord] = React.useState( 0 );
 
   const focusArea = useRef();
   useEffect(() => {
    if(focusArea.current) focusArea.current.focus(); 
   }, [focusArea]);
 
+
   const handleKey = event => {
     const timeNow = new Date();
-    if(previousPress !== null && validKeys.includes(event.key) && validKeys.includes(previousPress.key)) {
-      matrix.update(previousPress.key, event.key, timeNow - previousPress.pressTime);
+    // update displayed example text
+    if(event.key === " ") {
+      setMarkedWord(markedWord+1);
     }
-    previousPress = { "key": event.key, "pressTime": timeNow };
+    // update matrix
+    var newMatrix = new TypingMatrix(matrix.matrix);
+    if(previousPress.key !== undefined && validKeys.includes(event.key) && validKeys.includes(previousPress.key)) {
+      newMatrix.update(previousPress.key, event.key, timeNow - previousPress.pressTime)
+      setMatrix(newMatrix);
+    }
+    setPreviousPress({ "key": event.key, "pressTime": timeNow });
   }
 
+  // note: it may make more sense to have the typing page and going to the next page
+  //    but passing the matrix is easier from here
   const navigate = useNavigate();
   const toResults = () => {
     navigate('/results', {state: {matrix: matrix }});
@@ -28,6 +41,7 @@ function TypingCaptureArea() {
 
 	return (
     <div>
+      <TypingExerpt wordMarkNum={markedWord}/>
       <textarea 
         id="typeBox" 
         placeholder="Please Type Here" 
