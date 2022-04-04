@@ -101,6 +101,13 @@
   border-radius: 12px;
 }
 
+.unselected-results-button {
+  border-style: solid;
+  border-color: #264d73;
+  color: black;
+  background-color: white;
+}
+
 /* Stylings by Element */
 
 mark {
